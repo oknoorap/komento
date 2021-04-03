@@ -27,6 +27,7 @@ type Comments = Comment[];
 
 const useCommentListHook = () => {
   const { clientIpAddr } = useComment();
+  const [replyId, setReplyId] = useState<string>();
   const authorId = useMemo(
     () =>
       `0x${
@@ -124,6 +125,8 @@ const useCommentListHook = () => {
 
   return {
     comments,
+    replyId,
+    setReplyId,
   };
 };
 

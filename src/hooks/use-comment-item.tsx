@@ -14,9 +14,11 @@ const useCommentItemHook = (comment: Comment) => {
   const [isReply, setReplyStatus] = useState(false);
   const reply = useCallback(() => {
     setReplyStatus(true);
+    resizeIframe();
   }, []);
   const cancelReply = useCallback(() => {
     setReplyStatus(false);
+    resizeIframe();
   }, []);
 
   const [isCollapsed, setCollapseStatus] = useState(false);
