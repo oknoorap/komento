@@ -4,12 +4,37 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev:embed": "nodemon -e ts --watch src/scripts --exec \"yarn build:embed:dev\"",
+    "build": "next build && next export",
+    "postbuild": "yarn build:embed:production",
+    "start": "npx http-server out -p 3000",
+    "build:embed:dev": "env-cmd -f .env.development --use-shell 'esbuild src/scripts/embed.ts --minify --bundle --format=iife --define:process.env.NEXT_PUBLIC_WEBSITE_URL=\\\"${NEXT_PUBLIC_WEBSITE_URL}\\\" --outfile=public/embed.js'",
+    "build:embed:production": "env-cmd -f .env.production --use-shell 'esbuild src/scripts/embed.ts --minify --bundle --format=iife --define:process.env.NEXT_PUBLIC_WEBSITE_URL=\\\"${NEXT_PUBLIC_WEBSITE_URL}\\\" --outfile=out/embed.js'"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.4.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "date-fns": "^2.19.0",
+    "framer-motion": "^4",
+    "highlight.js": "^10.7.1",
     "next": "10.0.9",
+    "next-compose-plugins": "^2.2.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-icons": "^4.2.0",
+    "react-markdown": "^5.0.3",
+    "remark-emoji": "^2.1.0",
+    "remark-gfm": "^1.0.0",
+    "simplebar-react": "^2.3.0",
+    "unstated-next": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
+    "env-cmd": "^10.1.0",
+    "esbuild": "^0.10.2",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.2.3"
   }
 }
