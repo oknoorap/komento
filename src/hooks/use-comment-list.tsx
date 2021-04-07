@@ -16,6 +16,7 @@ type CommentAuthor = {
 export type Comment = {
   id: string;
   vote: number;
+  index?: number;
   author: CommentAuthor;
   body: string;
   createdAt: number;

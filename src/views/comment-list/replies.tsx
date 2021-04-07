@@ -42,8 +42,11 @@ const CommentListRepliesView: FC = () => {
 
         {!isCollapsed && (
           <Box w="full">
-            {replies.map((item) => (
-              <CommentItemProvider key={item.id} initialState={item}>
+            {replies.map((comment, index) => (
+              <CommentItemProvider
+                key={comment.id}
+                initialState={{ ...comment, index }}
+              >
                 <CommentListItem />
               </CommentItemProvider>
             ))}

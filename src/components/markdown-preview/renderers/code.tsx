@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from "react";
-import { Box, Icon, useClipboard } from "@chakra-ui/react";
+import { Flex, Box, Icon, useClipboard } from "@chakra-ui/react";
 import { IoMdCopy as CopyIcon } from "react-icons/io";
 import { AiOutlineWarning as WarningIcon } from "react-icons/ai";
 import hljs from "highlight.js";
@@ -47,7 +47,7 @@ export const InlineCodeRenderer: FC<CodeRendererProps> = ({
 
 const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
   const detailsRef = useRef<HTMLDetailsElement & { align: any }>();
-  const { onCopy } = useClipboard(value);
+  const { onCopy, hasCopied } = useClipboard(value);
   const { resizeIframe } = useIframeMessenger();
   const isSpoiler = language === "spoiler";
 
@@ -68,11 +68,11 @@ const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
   return (
     <Box
       as="details"
+      role="group"
       ref={detailsRef}
       open={!isSpoiler}
       border="1px"
       borderColor="gray.300"
-      role="group"
       position="relative"
       mb="4"
     >
@@ -99,17 +99,29 @@ const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
         {!isSpoiler && <Box as="span">codes</Box>}
       </Box>
       {!isSpoiler && (
-        <Icon
-          as={CopyIcon}
+        <Flex
+          alignItems="center"
           position="absolute"
           top="2"
           right="2"
           cursor="pointer"
-          visibility="hidden"
           zIndex="999"
+          color={hasCopied ? "gray.600" : "gray.500"}
+          visibility="hidden"
           _groupHover={{ visibility: "visible" }}
           onClick={onCopy}
-        />
+        >
+          <Box
+            as="span"
+            fontSize="xs"
+            fontWeight="bold"
+            textTransform="uppercase"
+            mr="0.5"
+          >
+            {hasCopied ? "Copied" : "Copy"}
+          </Box>
+          <Icon as={CopyIcon} />
+        </Flex>
       )}
       <Scrollbar>
         {!isSpoiler && (

@@ -8,7 +8,7 @@ type LinkRendererProps = {
 };
 
 const LinkRenderer: FC<LinkRendererProps> = ({ children, href, title }) => {
-  const props: LinkProps = { href, title };
+  const props: LinkProps = { href, title, noOfLines: 1 };
   if (href.slice(0, 4) === "http") {
     props.isExternal = true;
     props.rel = "noopener";

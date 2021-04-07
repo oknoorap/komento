@@ -11,8 +11,11 @@ const CommentListView = () => {
     <Box mt="8">
       <Divider mb="4" />
       <Box>
-        {comments.map((comment) => (
-          <CommentItemProvider key={comment.id} initialState={comment}>
+        {comments.map((comment, index) => (
+          <CommentItemProvider
+            key={comment.id}
+            initialState={{ ...comment, index }}
+          >
             <CommentListItem />
           </CommentItemProvider>
         ))}

@@ -14,18 +14,19 @@ const CommentListReplyButtonView: FC = () => {
   }, [reply]);
 
   return (
-    <Flex alignItems="center" role="group">
+    <Flex alignItems="center" role="group" mr="1">
       <Box
         as="button"
         display="inline-flex"
         alignItems="center"
         bg="none"
-        px="2px"
+        px="3px"
         color="cerulean.500"
         fontSize="xs"
         fontWeight="bold"
         rounded="sm"
         _hover={{ color: "white", bgColor: "cerulean.500" }}
+        _focus={{ outline: "none" }}
         onClick={onReply}
       >
         <Icon as={ReplyIcon} mr="1" />

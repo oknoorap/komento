@@ -9,7 +9,7 @@ type CommentHostRef = {
 };
 
 const useIframeMessengerHook = () => {
-  const { host } = useComment();
+  const { origin } = useComment();
   const commentHost = useRef<CommentHostRef>();
   const [isIframeLoaded, setIframeLoadStatus] = useState<boolean>();
 
@@ -30,15 +30,19 @@ const useIframeMessengerHook = () => {
   }, []);
 
   useEffect(() => {
-    const onMessage = ({ origin, source, data }: MessageEvent) => {
-      if (origin !== host) return;
+    const onMessage = ({
+      origin: iframeOrigin,
+      source,
+      data,
+    }: MessageEvent) => {
+      if (iframeOrigin !== origin) return;
       if (typeof data.type === "undefined") return;
       if (source instanceof MessagePort || source instanceof ServiceWorker)
         return;
 
       commentHost.current = {
         source,
-        origin,
+        origin: iframeOrigin,
       };
       setIframeLoadStatus(true);
       resizeIframe();
@@ -49,7 +53,7 @@ const useIframeMessengerHook = () => {
     return () => {
       window.removeEventListener(eventMessage, onMessage, false);
     };
-  }, [host]);
+  }, [origin]);
 
   return {
     isIframeLoaded,

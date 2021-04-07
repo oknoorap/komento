@@ -5,6 +5,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import { useIframeMessenger } from "hooks/use-iframe-messenger";
 import { Comment } from "hooks/use-comment-list";
+import { numUnit } from "utils/number";
 
 const useCommentItemHook = (comment: Comment) => {
   const { resizeIframe } = useIframeMessenger();
@@ -35,13 +36,7 @@ const useCommentItemHook = (comment: Comment) => {
   }, []);
 
   // Vote
-  const voteCount = useMemo(
-    () =>
-      Math.abs(vote) > 999
-        ? (Math.sign(vote) * Math.round(Math.abs(vote) / 100)) / 10 + "k"
-        : Math.sign(vote) * Math.abs(vote),
-    [vote]
-  );
+  const voteCount = useMemo(() => numUnit(vote), [vote]);
 
   // Date
   const date = new Date(createdAt);

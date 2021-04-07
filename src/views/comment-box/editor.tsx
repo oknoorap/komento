@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { Textarea } from "@chakra-ui/react";
+import { DebounceInput } from "react-debounce-input";
 
 import { useCommentBox } from "hooks/use-comment-box";
 
@@ -15,7 +16,14 @@ const CommentBoxEditor = () => {
 
   return (
     <Textarea
-      ref={editorRef}
+      as={DebounceInput}
+      //@ts-ignore
+      inputRef={(ref) => {
+        editorRef.current = ref;
+      }}
+      // @ts-ignore
+      debounceTimeout={300}
+      element="textarea"
       value={editor}
       onChange={onTypeComment}
       rows={6}

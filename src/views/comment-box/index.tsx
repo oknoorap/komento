@@ -14,6 +14,7 @@ import { useCommentBox } from "hooks/use-comment-box";
 
 import Editor from "./editor";
 import Preview from "./preview";
+import Help from "./help";
 import Submit from "./submit";
 
 type CommentBoxProps = {
@@ -82,7 +83,9 @@ const CommentBoxView: FC<CommentBoxProps> = ({
         <TabPanel>
           <Preview />
         </TabPanel>
-        <TabPanel>sddsf</TabPanel>
+        <TabPanel>
+          <Help />
+        </TabPanel>
         {!isHelpTab && <Submit cancelBtn={withCancelBtn} onCancel={onCancel} />}
       </TabPanels>
     </Tabs>
