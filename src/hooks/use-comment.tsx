@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createContainer } from "unstated-next";
 import slugify from "slugify";
 
@@ -9,13 +9,11 @@ type IPFSInstance = Window &
     ipfs: any;
   };
 
+export const DB_KEY = "comments";
+
 const initIPFS = async () => {
   return await (window as any).Ipfs.create({
     repo: "/orbitdb/komento",
-    start: true,
-    preload: {
-      enabled: true,
-    },
     EXPERIMENTAL: {
       pubsub: true,
     },
@@ -32,6 +30,8 @@ const initIPFS = async () => {
 };
 
 const useCommentHook = () => {
+  const dbRef = useRef<any>();
+  const [isDBReady, setDBStatus] = useState<boolean>();
   const [origin, setOrigin] = useState<string>();
   const [websiteUrl, setWebsiteUrl] = useState<string>();
   const [config, setConfig] = useState();
@@ -68,6 +68,12 @@ const useCommentHook = () => {
   }, []);
 
   useEffect(() => {
+    if (!websiteUrl) return;
+
+    const dbAddress = slugify(websiteUrl, {
+      remove: /[/\:\(\)\?\#]/g,
+    });
+
     const setupDB = async () => {
       try {
         if (!(window as IPFSInstance).ipfs) {
@@ -78,26 +84,32 @@ const useCommentHook = () => {
           (window as IPFSInstance).ipfs
         );
 
-        const commentsdb = await orbitdb.open(slugify(websiteUrl), {
+        dbRef.current = await orbitdb.open(dbAddress, {
           create: true,
+          sync: true,
           type: "keyvalue",
           accessController: {
-            write: ["*"],
+            write: [
+              "*",
+              // (orbitdb as any).identity.id,
+            ],
           },
         });
-
-        const onChatAdded = () => {};
-        commentsdb.events.on("write", onChatAdded);
-        commentsdb.events.on("ready", onChatAdded);
-        commentsdb.events.on("replicated", onChatAdded);
-        await commentsdb.load();
-      } catch {}
+        setDBStatus(true);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
-    // setupDB();
+    window.addEventListener("load", setupDB);
+    return () => {
+      window.removeEventListener("load", setupDB);
+    };
   }, [websiteUrl]);
 
   return {
+    dbRef,
+    isDBReady,
     clientLocalIp,
     clientIpAddr,
     config,

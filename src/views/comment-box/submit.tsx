@@ -13,7 +13,7 @@ const CommentBoxSubmitView: FC<CommentBoxSubmitProps> = ({
   cancelBtn,
   onCancel,
 }) => {
-  const { isWriteTab } = useCommentBox();
+  const { isWriteTab, submitComment, isSubmitting } = useCommentBox();
   return (
     <Flex px="4" pb="4" alignItems="flex-end" justifyContent="space-between">
       {isWriteTab && <Profile />}
@@ -24,7 +24,14 @@ const CommentBoxSubmitView: FC<CommentBoxSubmitProps> = ({
         </Button>
       )}
 
-      <Button ml={!cancelBtn && "auto"} size="sm" colorScheme="cerulean">
+      <Button
+        ml={!cancelBtn && "auto"}
+        size="sm"
+        colorScheme="cerulean"
+        onClick={submitComment}
+        isLoading={isSubmitting}
+        loadingText="Posting..."
+      >
         Post comment
       </Button>
     </Flex>

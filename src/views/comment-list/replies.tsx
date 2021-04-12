@@ -12,6 +12,7 @@ const CommentListRepliesView: FC = () => {
     onToggleCollapse,
     isCollapsed,
     collapseText,
+    depth = 0,
   } = useCommentItem();
   return (
     replies.length > 0 && (
@@ -45,7 +46,7 @@ const CommentListRepliesView: FC = () => {
             {replies.map((comment, index) => (
               <CommentItemProvider
                 key={comment.id}
-                initialState={{ ...comment, index }}
+                initialState={{ ...comment, index, depth: depth + 1 }}
               >
                 <CommentListItem />
               </CommentItemProvider>

@@ -1,15 +1,23 @@
 import { Box, Flex } from "@chakra-ui/react";
 
-import { useIframeMessenger } from "hooks/use-iframe-messenger";
+import { useCommentList } from "hooks/use-comment-list";
 
 const CommentLoaderView = () => {
-  const { isIframeLoaded } = useIframeMessenger();
-  if (isIframeLoaded) {
+  const { isCommentLoaded } = useCommentList();
+  if (isCommentLoaded) {
     return null;
   }
 
   return (
-    <Box position="fixed" w="full" h="full" zIndex="999" bgColor="white">
+    <Box
+      position="fixed"
+      top="0"
+      left="0"
+      w="full"
+      h="full"
+      zIndex="999"
+      bgColor="white"
+    >
       <Flex alignItems="center" justifyContent="center" h="full">
         Loading...
       </Flex>

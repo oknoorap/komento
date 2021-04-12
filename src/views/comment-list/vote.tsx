@@ -8,7 +8,7 @@ import {
 import { useCommentItem } from "hooks/use-comment-item";
 
 const CommentListVote: FC = () => {
-  const { voteCount } = useCommentItem();
+  const { id, voteCount, upvote, downvote } = useCommentItem();
   const iconButtonProps = {
     size: "xs",
     bg: "none",
@@ -23,23 +23,21 @@ const CommentListVote: FC = () => {
   return (
     <Flex alignItems="center" mr="1">
       <IconButton
-        aria-label="vote up"
+        aria-label="upvote"
         icon={<Icon as={VoteUpIcon} />}
         {...iconButtonProps}
-        _hover={{
-          color: "green.500",
-        }}
+        _hover={{ color: "green.500" }}
+        onClick={() => upvote(id)}
       />
       <Box as="span" fontSize="xs" fontWeight="bold">
         {voteCount}
       </Box>
       <IconButton
-        aria-label="vote down"
+        aria-label="downvote"
         icon={<Icon as={VoteDownIcon} />}
         {...iconButtonProps}
-        _hover={{
-          color: "red.500",
-        }}
+        _hover={{ color: "red.500" }}
+        onClick={() => downvote(id)}
       />
     </Flex>
   );

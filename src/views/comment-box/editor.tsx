@@ -6,7 +6,7 @@ import { useCommentBox } from "hooks/use-comment-box";
 
 const CommentBoxEditor = () => {
   const editorRef = useRef<HTMLTextAreaElement>();
-  const { editor, onTypeComment } = useCommentBox();
+  const { comment, onTypeComment, isSubmitting } = useCommentBox();
 
   useEffect(() => {
     if (editorRef.current) {
@@ -24,11 +24,12 @@ const CommentBoxEditor = () => {
       // @ts-ignore
       debounceTimeout={300}
       element="textarea"
-      value={editor}
-      onChange={onTypeComment}
-      rows={6}
       placeholder="Type your comment"
       size="sm"
+      rows={6}
+      isDisabled={isSubmitting}
+      value={comment}
+      onChange={onTypeComment}
     />
   );
 };

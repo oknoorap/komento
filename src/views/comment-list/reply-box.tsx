@@ -1,20 +1,15 @@
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import { Flex, Box, Divider } from "@chakra-ui/react";
 
-import { CommentBoxProvider } from "hooks/use-comment-box";
-import { useCommentList } from "hooks/use-comment-list";
+import { useCommentBox } from "hooks/use-comment-box";
 import { useCommentItem } from "hooks/use-comment-item";
 import CommentBox from "views/comment-box";
 
 const CommentListReplyBoxView: FC = () => {
-  const { replyId, setReplyId } = useCommentList();
-  const { id, isReply, cancelReply } = useCommentItem();
-  const onCancelReply = useCallback(() => {
-    setReplyId(null);
-    cancelReply();
-  }, [cancelReply]);
+  const { replyId } = useCommentBox();
+  const { id, onCancelReply } = useCommentItem();
 
-  if (!isReply || replyId !== id) {
+  if (replyId !== id) {
     return null;
   }
 
@@ -30,9 +25,7 @@ const CommentListReplyBoxView: FC = () => {
         />
       </Box>
       <Box w="full">
-        <CommentBoxProvider>
-          <CommentBox withCancelBtn onCancel={onCancelReply} />
-        </CommentBoxProvider>
+        <CommentBox withCancelBtn onCancel={onCancelReply} />
       </Box>
     </Flex>
   );

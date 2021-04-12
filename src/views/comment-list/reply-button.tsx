@@ -1,17 +1,14 @@
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { CgComment as ReplyIcon } from "react-icons/cg";
 
-import { useCommentList } from "hooks/use-comment-list";
 import { useCommentItem } from "hooks/use-comment-item";
 
 const CommentListReplyButtonView: FC = () => {
-  const { setReplyId } = useCommentList();
-  const { id, reply } = useCommentItem();
-  const onReply = useCallback(() => {
-    setReplyId(id);
-    reply();
-  }, [reply]);
+  const { onReply, depth } = useCommentItem();
+  if (depth > 3) {
+    return null;
+  }
 
   return (
     <Flex alignItems="center" role="group" mr="1">
