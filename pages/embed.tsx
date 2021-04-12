@@ -12,6 +12,16 @@ const EmbedPage = () => {
   return (
     <>
       <Head>
+        <link
+          as="script"
+          rel="preload"
+          href="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"
+        />
+        <link
+          as="script"
+          rel="preload"
+          href="https://cdn.jsdelivr.net/npm/orbit-db/dist/orbitdb.min.js"
+        />
         <script
           async
           src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"
@@ -24,13 +34,12 @@ const EmbedPage = () => {
 
       <CommentProvider>
         <IframeMessengerProvider>
-          <CommentLoader />
-
           <CommentBoxProvider>
             <CommentBox />
           </CommentBoxProvider>
 
           <CommentListProvider>
+            <CommentLoader />
             <CommentList />
           </CommentListProvider>
         </IframeMessengerProvider>
