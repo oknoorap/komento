@@ -1,6 +1,6 @@
 ### Link
 
-Links or Website URL is useful for reference in the comment. You can paste URL, and we automatically will convert it as URL. Alternatively, you can add link using syntax: `[Alias](url)`.
+Links or Website URLs are useful for reference in the comment. You can paste URL, and we automatically will convert it as URL. Alternatively, you can add link using syntax: `[Alias](url)`.
 
 ```markdown
 https://example.com
