@@ -69,6 +69,11 @@ const useCommentHook = () => {
 
   useEffect(() => {
     if (!websiteUrl) return;
+    if (!config) return;
+
+    if ((<any>config).demo) {
+      return;
+    }
 
     const dbAddress = slugify(websiteUrl, {
       remove: /[/\:\(\)\?\#]/g,
@@ -105,7 +110,7 @@ const useCommentHook = () => {
     return () => {
       window.removeEventListener("load", setupDB);
     };
-  }, [websiteUrl]);
+  }, [websiteUrl, config]);
 
   return {
     dbRef,
