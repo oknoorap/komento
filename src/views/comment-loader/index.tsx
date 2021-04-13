@@ -1,6 +1,7 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Icon, Spinner } from "@chakra-ui/react";
 
 import { useCommentList } from "hooks/use-comment-list";
+import Logo from "assets/svg/logo.svg?sprite";
 
 const CommentLoaderView = () => {
   const { isCommentLoaded } = useCommentList();
@@ -19,7 +20,8 @@ const CommentLoaderView = () => {
       bgColor="white"
     >
       <Flex alignItems="center" justifyContent="center" h="full">
-        Loading...
+        <Spinner color="cerulean.500" size="sm" mr="2" />
+        <Icon as={Logo} w="125px" h="auto" />
       </Flex>
     </Box>
   );
