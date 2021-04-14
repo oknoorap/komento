@@ -3,7 +3,7 @@ import { Box, Link } from "@chakra-ui/react";
 const FooterLayout = () => {
   const year = new Date().getFullYear();
   return (
-    <Box textAlign="center" mt="4">
+    <Box textAlign="center" mt="6">
       &copy; {year} MIT -{" "}
       <Link
         href="https://github.com/oknoorap/komento"
