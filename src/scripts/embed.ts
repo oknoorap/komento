@@ -5,7 +5,7 @@ const self = document.querySelector<HTMLScriptElement>(scriptTag);
 
 type SizeVariant = "xs" | "sm" | "md" | "lg";
 
-type Theme = {
+export type ConfigTheme = {
   body: {
     color: string;
   };
@@ -18,11 +18,12 @@ type Theme = {
 
 type EmojiTone = "";
 
-type Config = {
-  theme?: Theme;
+export type Config = {
+  theme?: ConfigTheme;
   emoji?: EmojiTone;
   hash?: boolean;
   qs?: boolean;
+  demo?: boolean;
 };
 
 enum MessageType {
