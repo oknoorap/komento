@@ -1,20 +1,17 @@
 import { useMemo } from "react";
 import { Box, Flex, Icon, useClipboard } from "@chakra-ui/react";
 import { IoMdCopy as CopyIcon } from "react-icons/io";
-import stringifyObj from "stringify-object";
 
 import { useSetup } from "hooks/use-setup";
 
 const SetupCodeView = () => {
   const { dataConfig } = useSetup();
-  const scriptSrc = useMemo(
-    () =>
-      `<script async data-config="${stringifyObj(dataConfig).replace(
-        /[\n\t]/g,
-        ""
-      )}" src="${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js" />`,
-    [dataConfig]
-  );
+  const scriptSrc = useMemo(() => {
+    const config = process.browser
+      ? btoa(JSON.stringify(dataConfig))
+      : Buffer.from(JSON.stringify(dataConfig)).toString("base64");
+    return `<script async data-config="${config}" src="${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js"></script>`;
+  }, [dataConfig]);
   const { hasCopied, onCopy } = useClipboard(scriptSrc);
   return (
     <Box role="group" position="relative">

@@ -32,7 +32,7 @@ const getSelf = () => {
 export const getConfig = () => {
   const self = getSelf();
   if (!self) throw new Error("Invalid script call");
-  return JSON.parse(self.dataset.config);
+  return JSON.parse(atob(self.dataset.config));
 };
 
 export const createIframe = () => {

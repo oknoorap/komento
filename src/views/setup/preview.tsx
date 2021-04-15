@@ -8,13 +8,14 @@ const SetupPreviewView = () => {
   const scriptBoxRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
+    if (!process.browser) return;
     if (!scriptBoxRef.current) return;
     const onIframeLoaded = () => {
       setPreviewLoadStatus(true);
     };
 
     const script: HTMLScriptElement = document.createElement("script");
-    script.dataset.config = JSON.stringify({ demo: true });
+    script.dataset.config = btoa(JSON.stringify({ demo: true }));
     script.src = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js`;
     script.onload = () => {
       requestAnimationFrame(() => {

@@ -6,13 +6,13 @@ const HomepageView = () => {
   const scriptBoxRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (scriptBoxRef.current) {
-      const script = document.createElement("script");
-      script.src = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js`;
-      script.dataset.config = JSON.stringify({ hash: false, qs: false });
-      scriptBoxRef.current.innerHTML = "";
-      scriptBoxRef.current.appendChild(script);
-    }
+    if (!process.browser) return;
+    if (!scriptBoxRef.current) return;
+    const script = document.createElement("script");
+    script.src = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js`;
+    script.dataset.config = btoa(JSON.stringify({ hash: false, qs: false }));
+    scriptBoxRef.current.innerHTML = "";
+    scriptBoxRef.current.appendChild(script);
   }, []);
 
   return (
