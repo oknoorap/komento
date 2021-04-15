@@ -1,10 +1,12 @@
 import { FC, useEffect, useRef } from "react";
 import { Flex, Box, Icon, useClipboard } from "@chakra-ui/react";
+import { lighten, darken } from "polished";
 import { IoMdCopy as CopyIcon } from "react-icons/io";
 import { AiOutlineWarning as WarningIcon } from "react-icons/ai";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 
+import { useEmbedTheme } from "hooks/use-embed-theme";
 import { useIframeMessenger } from "hooks/use-iframe-messenger";
 import MarkdownPreview from "components/markdown-preview";
 import Scrollbar from "components/scrollbar";
@@ -46,6 +48,7 @@ export const InlineCodeRenderer: FC<CodeRendererProps> = ({
 };
 
 const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
+  const { borderColor, textColor } = useEmbedTheme();
   const detailsRef = useRef<HTMLDetailsElement & { align: any }>();
   const { onCopy, hasCopied } = useClipboard(value);
   const { resizeIframe } = useIframeMessenger();
@@ -72,7 +75,7 @@ const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
       ref={detailsRef}
       open={!isSpoiler}
       border="1px"
-      borderColor="gray.300"
+      borderColor={borderColor}
       position="relative"
       mb="4"
     >
@@ -84,7 +87,7 @@ const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
         textTransform="uppercase"
         cursor="pointer"
         borderBottom="1px"
-        borderColor="gray.300"
+        borderColor={borderColor}
         py="2"
         px="4"
         _focus={{ outline: "none" }}
@@ -106,7 +109,7 @@ const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
           right="2"
           cursor="pointer"
           zIndex="999"
-          color={hasCopied ? "gray.600" : "gray.500"}
+          color={hasCopied ? darken(0.3, textColor) : darken(0.2, textColor)}
           visibility="hidden"
           _groupHover={{ visibility: "visible" }}
           onClick={onCopy}

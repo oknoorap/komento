@@ -39,7 +39,7 @@ const useCommentItemHook = (comment: Comment) => {
             "reply",
             hiddenCommentCount
           )}`
-        : "";
+        : " reply";
     return `Show ${firstAuthor}${hiddenAuthors}`;
   }, []);
   const onToggleCollapse = useCallback((event: MouseEvent) => {

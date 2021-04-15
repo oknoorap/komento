@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { createContainer } from "unstated-next";
+import { v4 as uuid } from "uuid";
 
 import { useComment, DB_KEY } from "hooks/use-comment";
 import { useIframeMessenger } from "hooks/use-iframe-messenger";
@@ -38,7 +39,7 @@ export type Comment = {
 type Comments = Comment[];
 
 const useCommentListHook = () => {
-  const { dbRef, isDBReady } = useComment();
+  const { dbRef, isDBReady, isDemo } = useComment();
   const { resizeIframe } = useIframeMessenger();
   const [isCommentLoaded, setCommentLoadStatus] = useState<boolean>();
   const [comments, setCommentList] = useState<Comments>([]);
@@ -46,8 +47,10 @@ const useCommentListHook = () => {
 
   const submitVote = useCallback(
     async (type: "up" | "down", commentId: string) => {
-      if (!dbRef.current) return;
+      if (!isDemo && !dbRef.current) return;
       if (!commentId) return;
+      if (isDemo) return;
+
       const commentMap = (comment: Comment) => {
         if (comment.id === commentId) {
           switch (type) {
@@ -68,15 +71,17 @@ const useCommentListHook = () => {
       setCommentList(newComments);
       rerender(Date.now());
     },
-    [comments]
+    [comments, isDemo]
   );
 
   const submitReaction = useCallback(
     async (author: string, emoji: EmojiReaction, commentId: string) => {
-      if (!dbRef.current) return;
+      if (!isDemo && !dbRef.current) return;
       if (!author) return;
       if (!emoji) return;
       if (!commentId) return;
+      if (isDemo) return;
+
       const commentMap = (comment: Comment) => {
         const reactionByCurrentAuthor = comment.reaction
           .filter((item) => item.author === author)
@@ -100,12 +105,115 @@ const useCommentListHook = () => {
       setCommentList(newComments);
       rerender(Date.now());
     },
-    [comments]
+    [comments, isDemo]
   );
 
   useEffect(() => {
-    if (!dbRef.current) return;
+    if (!isDemo && !dbRef.current) return;
     if (!isDBReady) return;
+    if (isDemo) {
+      setCommentList([
+        {
+          id: uuid(),
+          author: {
+            id: "0x0",
+            name: "Anonymous",
+          },
+          body: "Nice reaction!",
+          createdAt: 1618293184378,
+          reaction: [
+            {
+              author: "0x0",
+              emoji: EmojiReaction.Love,
+            },
+            {
+              author: "0x0",
+              emoji: EmojiReaction.Smile,
+            },
+          ],
+          replies: [
+            {
+              id: uuid(),
+              author: {
+                id: "0x0",
+                name: "Anonymous",
+              },
+              body: "Nested Comment, here is link https://komento.host",
+              createdAt: 1618299201886,
+              reaction: [],
+              replies: [
+                {
+                  id: uuid(),
+                  author: {
+                    id: "0x0",
+                    name: "Anonymous",
+                  },
+                  body: "Do you like Inception Movie?",
+                  createdAt: 1618299372285,
+                  reaction: [],
+                  replies: [
+                    {
+                      id: uuid(),
+                      author: {
+                        id: "0x0",
+                        name: "Leonardo",
+                      },
+                      body: "Yesn't",
+                      createdAt: 1618299372285,
+                      reaction: [],
+                      replies: [],
+                      vote: 0,
+                    },
+                  ],
+                  vote: 0,
+                },
+              ],
+              vote: 0,
+            },
+            {
+              id: uuid(),
+              author: {
+                id: "0x0",
+                name: "Anonymous",
+              },
+              body:
+                "I have spoiler: \n```spoiler\nHello world\n```\nYou can open spoiler above.",
+              createdAt: 1618299201886,
+              reaction: [],
+              replies: [],
+              vote: 0,
+            },
+          ],
+          vote: 0,
+        },
+        {
+          id: uuid(),
+          author: {
+            id: "0x0",
+            name: "Anonymous",
+          },
+          body: "Comment with vote",
+          createdAt: 1618293184378,
+          reaction: [],
+          replies: [],
+          vote: 3,
+        },
+        {
+          id: uuid(),
+          author: {
+            id: "0x0",
+            name: "Anonymous",
+          },
+          body: "Hello world",
+          createdAt: 1618293111790,
+          reaction: [],
+          replies: [],
+          vote: 0,
+        },
+      ]);
+      setCommentLoadStatus(true);
+      return;
+    }
 
     const sortByCreatedAt = (a, z) => z.createdAt - a.createdAt;
     const commentsMap = (item: Comment) => {
@@ -114,28 +222,29 @@ const useCommentListHook = () => {
     };
 
     dbRef.current.events.on("write", (_, entry) => {
-      setCommentList(
-        entry.payload.value.sort(sortByCreatedAt).map(commentsMap)
-      );
+      const commentList = entry.payload.value
+        .sort(sortByCreatedAt)
+        .map(commentsMap);
+      setCommentList(commentList);
       rerender(() => Date.now());
       resizeIframe();
     });
 
     const onCommentReady = () => {
-      setCommentLoadStatus(true);
-      setCommentList(
-        (dbRef.current.get(DB_KEY) || []).sort(sortByCreatedAt).map(commentsMap)
-      );
+      const commentList = (dbRef.current.get(DB_KEY) || [])
+        .sort(sortByCreatedAt)
+        .map(commentsMap);
+      setCommentList(commentList);
       rerender(() => Date.now());
+      setCommentLoadStatus(true);
       resizeIframe();
     };
 
     dbRef.current.events.on("ready", onCommentReady);
     dbRef.current.events.on("peer", onCommentReady);
     dbRef.current.events.on("replicated", onCommentReady);
-
     dbRef.current.load();
-  }, [isDBReady]);
+  }, [isDBReady, isDemo]);
 
   return {
     comments,

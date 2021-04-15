@@ -1,9 +1,12 @@
 import Head from "next/head";
+import { Box } from "@chakra-ui/react";
 
-import { CommentProvider } from "hooks/use-comment";
 import { IframeMessengerProvider } from "hooks/use-iframe-messenger";
+import { CommentProvider } from "hooks/use-comment";
+import { EmbedThemeProvider } from "hooks/use-embed-theme";
 import { CommentBoxProvider } from "hooks/use-comment-box";
 import { CommentListProvider } from "hooks/use-comment-list";
+import EmbedLayout from "layouts/embed";
 import CommentBox from "views/comment-box";
 import CommentList from "views/comment-list";
 import CommentLoader from "views/comment-loader";
@@ -32,18 +35,21 @@ const EmbedPage = () => {
         />
       </Head>
 
-      <CommentProvider>
-        <IframeMessengerProvider>
-          <CommentBoxProvider>
-            <CommentBox />
-          </CommentBoxProvider>
-
-          <CommentListProvider>
-            <CommentLoader />
-            <CommentList />
-          </CommentListProvider>
-        </IframeMessengerProvider>
-      </CommentProvider>
+      <EmbedThemeProvider>
+        <CommentProvider>
+          <IframeMessengerProvider>
+            <EmbedLayout>
+              <CommentBoxProvider>
+                <CommentBox />
+              </CommentBoxProvider>
+              <CommentListProvider>
+                <CommentLoader />
+                <CommentList />
+              </CommentListProvider>
+            </EmbedLayout>
+          </IframeMessengerProvider>
+        </CommentProvider>
+      </EmbedThemeProvider>
     </>
   );
 };

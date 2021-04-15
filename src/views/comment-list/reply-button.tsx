@@ -1,10 +1,13 @@
 import { FC } from "react";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { CgComment as ReplyIcon } from "react-icons/cg";
+import { invert, darken } from "polished";
 
+import { useEmbedTheme } from "hooks/use-embed-theme";
 import { useCommentItem } from "hooks/use-comment-item";
 
 const CommentListReplyButtonView: FC = () => {
+  const { buttonColor, textColor } = useEmbedTheme();
   const { onReply, depth } = useCommentItem();
   if (depth > 3) {
     return null;
@@ -18,11 +21,11 @@ const CommentListReplyButtonView: FC = () => {
         alignItems="center"
         bg="none"
         px="3px"
-        color="cerulean.500"
+        color={buttonColor}
         fontSize="xs"
         fontWeight="bold"
         rounded="sm"
-        _hover={{ color: "white", bgColor: "cerulean.500" }}
+        _hover={{ color: invert(darken(1, textColor)), bgColor: buttonColor }}
         _focus={{ outline: "none" }}
         onClick={onReply}
       >

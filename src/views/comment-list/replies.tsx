@@ -1,8 +1,10 @@
 import { FC } from "react";
 import { Flex, Box, Divider, Link, Icon } from "@chakra-ui/react";
 import { HiPlusCircle as ExpandIcon } from "react-icons/hi";
+import { darken } from "polished";
 
 import { CommentItemProvider } from "hooks/use-comment-item";
+import { useEmbedTheme } from "hooks/use-embed-theme";
 import { useCommentItem } from "hooks/use-comment-item";
 import CommentListItem from "./item";
 
@@ -14,16 +16,17 @@ const CommentListRepliesView: FC = () => {
     collapseText,
     depth = 0,
   } = useCommentItem();
+  const { borderColor } = useEmbedTheme();
   return (
     replies.length > 0 && (
       <Flex mt="2">
         <Box ml="2" mr="5">
           <Divider
             orientation="vertical"
-            borderColor="gray.300"
             borderWidth="1px"
             cursor="pointer"
-            _hover={{ borderColor: "gray.500" }}
+            borderColor={borderColor}
+            _hover={{ borderColor: darken(0.2, borderColor) }}
             onClick={onToggleCollapse}
           />
         </Box>

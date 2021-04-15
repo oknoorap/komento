@@ -1,32 +1,30 @@
 import { useRef, useEffect } from "react";
-import { Flex, Box, Container, Icon, Button, Link } from "@chakra-ui/react";
-
-const commentConfig = {
-  hash: false,
-  qs: false,
-};
+import NextLink from "next/link";
+import { Flex, Button, Link, Box } from "@chakra-ui/react";
 
 const HomepageView = () => {
-  const scriptRef = useRef<HTMLScriptElement>();
+  const scriptBoxRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (scriptRef.current) {
-      scriptRef.current.src = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js`;
+    if (scriptBoxRef.current) {
+      const script = document.createElement("script");
+      script.src = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/embed.js`;
+      script.dataset.config = JSON.stringify({ hash: false, qs: false });
+      scriptBoxRef.current.innerHTML = "";
+      scriptBoxRef.current.appendChild(script);
     }
   }, []);
 
   return (
     <>
       <Flex justifyContent="center" mb="8">
-        <Button as={Link} href="/setup" colorScheme="cerulean">
-          Add to your website!
-        </Button>
+        <NextLink href="/setup" passHref>
+          <Button as={Link} colorScheme="cerulean">
+            Add to your website!
+          </Button>
+        </NextLink>
       </Flex>
-      <script
-        ref={scriptRef}
-        async
-        data-config={JSON.stringify(commentConfig)}
-      />
+      <Box ref={scriptBoxRef} />
     </>
   );
 };

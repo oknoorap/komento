@@ -1,5 +1,7 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import { lighten, invert, darken } from "polished";
 
+import { useEmbedTheme } from "hooks/use-embed-theme";
 import MarkdownPreview from "components/markdown-preview";
 import Scrollbar from "components/scrollbar";
 
@@ -24,11 +26,13 @@ const tabs = [
 ];
 
 const CommentBoxHelpView = () => {
+  const { buttonColor, textColor } = useEmbedTheme();
   const tabProps = {
-    bgColor: "cerulean.500",
-    color: "white",
+    bgColor: buttonColor,
+    color: invert(darken(1, textColor)),
     mr: 2,
     _focus: { outline: "none" },
+    _selected: { bgColor: lighten(0.1, buttonColor) },
   };
 
   return (

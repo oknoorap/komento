@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createContainer } from "unstated-next";
 import slugify from "slugify";
 
+import { useEmbedTheme } from "hooks/use-embed-theme";
+import { Config } from "scripts/utils";
 import { getClientIpAddress } from "utils/network";
 
 type IPFSInstance = Window &
@@ -31,10 +33,12 @@ const initIPFS = async () => {
 
 const useCommentHook = () => {
   const dbRef = useRef<any>();
+  const { setTheme } = useEmbedTheme();
   const [isDBReady, setDBStatus] = useState<boolean>();
   const [origin, setOrigin] = useState<string>();
   const [websiteUrl, setWebsiteUrl] = useState<string>();
-  const [config, setConfig] = useState();
+  const [config, setConfig] = useState<Config>();
+  const [isDemo, setIsDemo] = useState(false);
   const [clientLocalIp, setClientLocalIp] = useState<string>();
   const [clientIpAddr, setClientIpAddr] = useState<string>();
 
@@ -51,9 +55,12 @@ const useCommentHook = () => {
             atob(value),
           ])
         );
+        const { demo, hash, qs, theme, emoji }: Config = JSON.parse(config);
         setOrigin(origin);
         setWebsiteUrl(websiteUrl);
-        setConfig(JSON.parse(config));
+        setConfig({ hash, qs });
+        setTheme(theme);
+        setIsDemo(Boolean(demo));
 
         // Get client / machine IP Address
         const { local, external } = await getClientIpAddress();
@@ -70,8 +77,8 @@ const useCommentHook = () => {
   useEffect(() => {
     if (!websiteUrl) return;
     if (!config) return;
-
-    if ((<any>config).demo) {
+    if (isDemo) {
+      setDBStatus(true);
       return;
     }
 
@@ -94,10 +101,7 @@ const useCommentHook = () => {
           sync: true,
           type: "keyvalue",
           accessController: {
-            write: [
-              "*",
-              // (orbitdb as any).identity.id,
-            ],
+            write: ["*"],
           },
         });
         setDBStatus(true);
@@ -110,7 +114,7 @@ const useCommentHook = () => {
     return () => {
       window.removeEventListener("load", setupDB);
     };
-  }, [websiteUrl, config]);
+  }, [websiteUrl, isDemo]);
 
   return {
     dbRef,
@@ -119,6 +123,9 @@ const useCommentHook = () => {
     clientIpAddr,
     config,
     origin,
+    isDemo,
+    setConfig,
+    setTheme,
   };
 };
 

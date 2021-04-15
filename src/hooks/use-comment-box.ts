@@ -8,7 +8,7 @@ import { Comment } from "hooks/use-comment-list";
 
 const useCommentBoxHook = () => {
   const { resizeIframe } = useIframeMessenger();
-  const { clientIpAddr, dbRef } = useComment();
+  const { clientIpAddr, dbRef, isDemo } = useComment();
   const authorId = useMemo(() => {
     const number = parseInt(clientIpAddr?.split(".")?.join("") ?? "0");
     const id = (
@@ -34,8 +34,9 @@ const useCommentBoxHook = () => {
   }, []);
 
   const submitComment = useCallback(async () => {
-    if (!dbRef.current) return;
+    if (!isDemo && !dbRef.current) return;
     if (comment.length < 2) return;
+    if (isDemo) return;
 
     const id = uuid();
     const vote = 0;
@@ -78,7 +79,7 @@ const useCommentBoxHook = () => {
     if (replyId) setReplyId(null);
     setComment("");
     setSubmitStatus(false);
-  }, [comment, replyId, authorId, authorName]);
+  }, [comment, replyId, authorId, authorName, isDemo]);
 
   const clearComment = useCallback(() => {
     setComment("");
