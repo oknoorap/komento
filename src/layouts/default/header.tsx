@@ -9,7 +9,7 @@ const HeaderLayout = () => {
     <Flex flexDir="column" alignItems="center" mb="10">
       <NextLink href="/" passHref>
         <Link w="60%" _focus={{ outline: "none" }}>
-          <Icon as={Logo} w="100%" h="auto" />
+          <Icon as={Logo} w="100%" h="auto" fill="cerulean.500" />
         </Link>
       </NextLink>
       <Box color="gray.600" mt="-5">
