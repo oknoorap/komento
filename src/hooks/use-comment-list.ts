@@ -192,6 +192,18 @@ const useCommentListHook = () => {
             id: "0x0",
             name: "Anonymous",
           },
+          body: `I have code\n\`\`\`html\n<!DOCTYPE html>\n <html lang="en">\n <head>\n    <meta charset="UTF-8">\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Komento</title>\n </head>\n <body>\n    <script async data-config="eyJ0aGVtZSI6eyJiZyI6IiNmZmZmZmYiLCJib3JkZXIiOiIjQ0JENUUwIiwidGV4dCI6IiMyRDM3NDgiLCJidXR0b24iOiIjMGZhN2RjIiwibGluayI6IiMwZmE3ZGMifSwicXMiOmZhbHNlLCJoYXNoIjpmYWxzZX0=" src="http://localhost:3000/embed.js"></script>\n </body>\n </html>\n\`\`\``,
+          createdAt: 1618293184378,
+          reaction: [],
+          replies: [],
+          vote: 10,
+        },
+        {
+          id: uuid(),
+          author: {
+            id: "0x0",
+            name: "Anonymous",
+          },
           body: "Comment with vote",
           createdAt: 1618293184378,
           reaction: [],

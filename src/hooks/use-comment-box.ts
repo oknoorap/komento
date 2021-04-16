@@ -11,12 +11,8 @@ const useCommentBoxHook = () => {
   const { clientIpAddr, dbRef, isDemo } = useComment();
   const authorId = useMemo(() => {
     const number = parseInt(clientIpAddr?.split(".")?.join("") ?? "0");
-    const id = (
-      Array(8 - number.toString(16).length + 1).join("0") + number.toString(16)
-    )
-      .match(/[a-fA-F0-9]{2}/g)
-      .reverse()
-      .join("");
+    const id =
+      number < 0 ? 0xffffffff + number + 1 : number.toString(16).toUpperCase();
     return `0x${id}`;
   }, [clientIpAddr]);
   const [authorName, setAuthorName] = useState<string>("Anonymous");

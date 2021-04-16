@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent } from "react";
 import {
   SimpleGrid,
   Box,
@@ -7,15 +7,13 @@ import {
   FormLabel,
   Switch,
   Heading,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
+  Select,
 } from "@chakra-ui/react";
 import ColorPicker from "rc-color-picker";
 import "rc-color-picker/assets/index.css";
 
 import { useSetup } from "hooks/use-setup";
+import highlighterThemes from "components/markdown-preview/renderers/code-themes";
 
 const SetupConfigView = () => {
   const {
@@ -29,6 +27,8 @@ const SetupConfigView = () => {
     setButtonColor,
     linkColor,
     setLinkColor,
+    codeHighlighter,
+    setCodeHighlighter,
     withQS,
     setWithQS,
     withHash,
@@ -71,12 +71,20 @@ const SetupConfigView = () => {
       onChange: (colors) => setLinkColor(colors.color),
     },
 
-    {},
+    {
+      label: "Codes Highlighter",
+      value: codeHighlighter,
+      options: highlighterThemes,
+      type: "select",
+      onChange(event: ChangeEvent<HTMLSelectElement>) {
+        setCodeHighlighter(event.target.value);
+      },
+    },
 
     {
       label: "Include Query String",
       value: withQS,
-      type: "bool",
+      type: "switch",
       onChange() {
         setWithQS((withQS) => !withQS);
       },
@@ -85,7 +93,7 @@ const SetupConfigView = () => {
     {
       label: "Include URL Hash",
       value: withHash,
-      type: "bool",
+      type: "switch",
       onChange() {
         setWithHash((withHash) => !withHash);
       },
@@ -104,7 +112,7 @@ const SetupConfigView = () => {
         Setup and Embed Comment
       </Heading>
       <SimpleGrid columns={3} columnGap="2">
-        {forms.map(({ label, value, type, onChange }, index) => {
+        {forms.map(({ label, value, type, options, onChange }, index) => {
           switch (type) {
             case "color":
               return (
@@ -125,7 +133,29 @@ const SetupConfigView = () => {
                 </FormControl>
               );
 
-            case "bool":
+            case "select":
+              return (
+                <FormControl key={`form-${index}`} mb="4">
+                  <FormLabel htmlFor={`form-${index}`}>{label}</FormLabel>
+                  <Select
+                    size="xs"
+                    variant="flushed"
+                    defaultValue={value as string}
+                    onChange={onChange}
+                  >
+                    {options.map((optionValue, optionIndex) => (
+                      <option
+                        key={`form-select-${index}-${optionIndex}`}
+                        value={optionValue}
+                      >
+                        {optionValue}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+
+            case "switch":
               return (
                 <FormControl key={`form-${index}`} mb="4">
                   <FormLabel htmlFor={`form-${index}`}>{label}</FormLabel>

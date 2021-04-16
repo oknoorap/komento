@@ -7,7 +7,10 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+          <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+        </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />

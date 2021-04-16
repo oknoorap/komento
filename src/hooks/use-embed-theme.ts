@@ -10,6 +10,9 @@ const useThemeHook = () => {
   const borderColor = useMemo(() => theme?.border ?? "#CBD5E0", [theme]);
   const linkColor = useMemo(() => theme?.link ?? "#0fa7dc", [theme]);
   const buttonColor = useMemo(() => theme?.button ?? "#0fa7dc", [theme]);
+  const codeHighlighter = useMemo(() => theme?.highlighter ?? "github", [
+    theme,
+  ]);
 
   return {
     setTheme,
@@ -18,6 +21,7 @@ const useThemeHook = () => {
     borderColor,
     linkColor,
     buttonColor,
+    codeHighlighter,
   };
 };
 

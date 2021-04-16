@@ -4,6 +4,7 @@ export type ThemeConfig = {
   text: string;
   button: string;
   link: string;
+  highlighter: string;
 };
 
 type EmojiTone = "";

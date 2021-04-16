@@ -11,6 +11,7 @@ const useSetupHook = () => {
   const [textColor, setTextColor] = useState("#2D3748");
   const [buttonColor, setButtonColor] = useState("#0fa7dc");
   const [linkColor, setLinkColor] = useState("#0fa7dc");
+  const [codeHighlighter, setCodeHighlighter] = useState("github");
   const [withQS, setWithQS] = useState(false);
   const [withHash, setWithHash] = useState(false);
   const dataConfig = useMemo(() => {
@@ -21,6 +22,7 @@ const useSetupHook = () => {
         text: textColor,
         button: buttonColor,
         link: linkColor,
+        highlighter: codeHighlighter,
       },
       qs: withQS,
       hash: withHash,
@@ -31,12 +33,13 @@ const useSetupHook = () => {
     textColor,
     buttonColor,
     linkColor,
+    codeHighlighter,
     withQS,
     withHash,
   ]);
 
   useEffect(() => {
-    if (!previewIframeRef.current) return;
+    if (!previewIframeRef?.current?.contentWindow) return;
     previewIframeRef.current.contentWindow.postMessage(
       {
         type: MessageType.UpdateConfig,
@@ -57,6 +60,8 @@ const useSetupHook = () => {
     setButtonColor,
     linkColor,
     setLinkColor,
+    codeHighlighter,
+    setCodeHighlighter,
     withQS,
     setWithQS,
     withHash,

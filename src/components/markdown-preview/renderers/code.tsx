@@ -1,15 +1,16 @@
 import { FC, useEffect, useRef } from "react";
 import { Flex, Box, Icon, useClipboard } from "@chakra-ui/react";
-import { lighten, darken } from "polished";
+import { darken } from "polished";
 import { IoMdCopy as CopyIcon } from "react-icons/io";
 import { AiOutlineWarning as WarningIcon } from "react-icons/ai";
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
 
 import { useEmbedTheme } from "hooks/use-embed-theme";
 import { useIframeMessenger } from "hooks/use-iframe-messenger";
 import MarkdownPreview from "components/markdown-preview";
 import Scrollbar from "components/scrollbar";
+
+import highlighterThemes from "./code-themes";
 
 type CodeRendererProps = {
   value: string;
@@ -33,6 +34,7 @@ export const InlineCodeRenderer: FC<CodeRendererProps> = ({
     <Box
       ref={codeRef}
       as="code"
+      whiteSpace="pre-wrap"
       p={!isInline && 4}
       px={isInline && 2}
       py={isInline && "1px"}
@@ -48,7 +50,7 @@ export const InlineCodeRenderer: FC<CodeRendererProps> = ({
 };
 
 const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
-  const { borderColor, textColor } = useEmbedTheme();
+  const { borderColor, textColor, codeHighlighter } = useEmbedTheme();
   const detailsRef = useRef<HTMLDetailsElement & { align: any }>();
   const { onCopy, hasCopied } = useClipboard(value);
   const { resizeIframe } = useIframeMessenger();
@@ -67,6 +69,20 @@ const CodeRenderer: FC<CodeRendererProps> = ({ value, language }) => {
         detailsRef.current.removeEventListener("toggle", onToggle);
     };
   }, []);
+
+  // Highlighter Styles
+  useEffect(() => {
+    if (!highlighterThemes.includes(codeHighlighter)) return;
+    let hljs: HTMLLinkElement = document.querySelector("link#hljs-css");
+    if (hljs) hljs.remove();
+
+    hljs = document.createElement("link");
+    hljs.rel = "stylesheet";
+    hljs.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/${codeHighlighter}.min.css`;
+
+    const head = document.head || document.getElementsByTagName("head")[0];
+    head.appendChild(hljs);
+  }, [codeHighlighter]);
 
   return (
     <Box
