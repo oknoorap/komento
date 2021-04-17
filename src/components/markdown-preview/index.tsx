@@ -17,6 +17,7 @@ import QuoteRenderer from "./renderers/blockquote";
 import LinkRenderer from "./renderers/link";
 import DividerRenderer from "./renderers/divider";
 import ImageRenderer from "./renderers/image";
+import HTMLRenderer from "./renderers/html";
 
 const dynamicOpts = { ssr: false };
 const Markdown = dynamic(() => import("react-markdown"), dynamicOpts);
@@ -32,8 +33,8 @@ const MarkdownPreview: FC = ({ children }) => {
   return (
     <Box
       sx={{
-        "p:last-of-type, div:last-of-type, details:last-of-type": {
-          m: 0,
+        "*:last-child": {
+          mb: 0,
         },
       }}
     >
@@ -58,6 +59,7 @@ const MarkdownPreview: FC = ({ children }) => {
           thematicBreak: DividerRenderer,
           image: ImageRenderer,
           imageReference: ImageRenderer,
+          html: HTMLRenderer,
         }}
       />
     </Box>

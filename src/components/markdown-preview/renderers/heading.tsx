@@ -1,11 +1,15 @@
 import { FC } from "react";
 import { Heading, HeadingProps } from "@chakra-ui/react";
+import { lighten } from "polished";
+
+import { useEmbedTheme } from "hooks/use-embed-theme";
 
 type HeadingRendererProps = {
   level: 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 const HeadingRenderer: FC<HeadingRendererProps> = ({ level, children }) => {
+  const { borderColor } = useEmbedTheme();
   const tag = `h${level}` as const;
   const props: HeadingProps = {
     as: tag,
@@ -34,7 +38,7 @@ const HeadingRenderer: FC<HeadingRendererProps> = ({ level, children }) => {
         ? "lg"
         : "md",
     borderBottomWidth: ["h1", "h2"].includes(tag) && 1,
-    borderBottomColor: ["h1", "h2"].includes(tag) && "gray.200",
+    borderBottomColor: ["h1", "h2"].includes(tag) && lighten(0.1, borderColor),
   };
   return <Heading {...props}>{children}</Heading>;
 };

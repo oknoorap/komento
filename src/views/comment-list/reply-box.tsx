@@ -1,13 +1,18 @@
 import { FC } from "react";
 import { Flex, Box, Divider } from "@chakra-ui/react";
+import { darken } from "polished";
 
-import { CommentBoxProvider } from "hooks/use-comment-box";
+import { useEmbedTheme } from "hooks/use-embed-theme";
+import { useCommentBox } from "hooks/use-comment-box";
 import { useCommentItem } from "hooks/use-comment-item";
 import CommentBox from "views/comment-box";
 
 const CommentListReplyBoxView: FC = () => {
-  const { isReply, cancelReply } = useCommentItem();
-  if (!isReply) {
+  const { borderColor } = useEmbedTheme();
+  const { replyId } = useCommentBox();
+  const { id, onCancelReply } = useCommentItem();
+
+  if (replyId !== id) {
     return null;
   }
 
@@ -16,16 +21,14 @@ const CommentListReplyBoxView: FC = () => {
       <Box ml="2" mr="5">
         <Divider
           orientation="vertical"
-          borderColor="gray.300"
           borderWidth="1px"
           cursor="pointer"
-          _hover={{ borderColor: "gray.500" }}
+          borderColor={borderColor}
+          _hover={{ borderColor: darken(0.2, borderColor) }}
         />
       </Box>
       <Box w="full">
-        <CommentBoxProvider>
-          <CommentBox withCancelBtn onCancel={cancelReply} />
-        </CommentBoxProvider>
+        <CommentBox withCancelBtn onCancel={onCancelReply} />
       </Box>
     </Flex>
   );

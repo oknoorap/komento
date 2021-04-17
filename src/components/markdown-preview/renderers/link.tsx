@@ -8,14 +8,20 @@ type LinkRendererProps = {
 };
 
 const LinkRenderer: FC<LinkRendererProps> = ({ children, href, title }) => {
-  const props: LinkProps = { href, title };
+  const props: LinkProps = {
+    href,
+    title,
+    noOfLines: 1,
+    display: "inline-flex",
+    alignItems: "center",
+  };
   if (href.slice(0, 4) === "http") {
     props.isExternal = true;
     props.rel = "noopener";
   }
 
   return (
-    <Link color="cerulean.500" {...props}>
+    <Link {...props}>
       <Box as="span" mr="0.5">
         {children}
       </Box>

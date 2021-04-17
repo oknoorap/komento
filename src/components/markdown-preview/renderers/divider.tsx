@@ -1,8 +1,12 @@
 import { FC } from "react";
 import { Divider } from "@chakra-ui/layout";
+import { darken } from "polished";
+
+import { useEmbedTheme } from "hooks/use-embed-theme";
 
 const DividerRenderer: FC = () => {
-  return <Divider borderColor="gray.500" mb="4" />;
+  const { borderColor } = useEmbedTheme();
+  return <Divider borderColor={darken(0.15, borderColor)} mb="4" />;
 };
 
 export default DividerRenderer;

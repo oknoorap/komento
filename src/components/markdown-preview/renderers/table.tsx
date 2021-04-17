@@ -1,13 +1,17 @@
 import { FC } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import { lighten } from "polished";
+
+import { useEmbedTheme } from "hooks/use-embed-theme";
 
 const TableRenderer: FC = ({ children }) => {
+  const { borderColor } = useEmbedTheme();
   return (
     <Table
       variant="striped"
       size="sm"
       borderWidth="1px"
-      borderColor="gray.300"
+      borderColor={borderColor}
       width="auto"
       mb="6"
     >
@@ -25,7 +29,18 @@ export const TBodyRenderer: FC = ({ children }) => {
 };
 
 export const TRowRenderer: FC = ({ children }) => {
-  return <Tr>{children}</Tr>;
+  const { borderColor } = useEmbedTheme();
+  return (
+    <Tr
+      sx={{
+        ":nth-of-type(odd) td": {
+          bg: `${lighten(0.12, borderColor)} !important`,
+        },
+      }}
+    >
+      {children}
+    </Tr>
+  );
 };
 
 type TableCellRenderer = {
@@ -38,12 +53,15 @@ export const TableCellRenderer: FC<TableCellRenderer> = ({
   children,
   align = "left",
 }) => {
+  const { textColor } = useEmbedTheme();
   return isHeader ? (
-    <Th align={align} py="3">
+    <Th align={align} border="none" py="3" color={textColor}>
       {children}
     </Th>
   ) : (
-    <Td align={align}>{children}</Td>
+    <Td align={align} border="none">
+      {children}
+    </Td>
   );
 };
 

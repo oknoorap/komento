@@ -1,7 +1,16 @@
 const withPlugins = require("next-compose-plugins");
+const withOptimizedImages = require("next-optimized-images");
 
-const nextPlugins = [];
+const nextPlugins = [withOptimizedImages];
 
-const nextConfig = {};
+const nextConfig = {
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.doc\.md$/,
+      use: "raw-loader",
+    });
+    return config;
+  },
+};
 
 module.exports = withPlugins(nextPlugins, nextConfig);
