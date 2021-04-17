@@ -38,7 +38,7 @@ const HomepageView = () => {
         <AlertTitle mr={2} />
         <AlertDescription>
           Komento is still in the Beta phase (not production-ready yet), due to
-          database sync / replicate issues. We're fixing on it.
+          database sync / replicate issues. We're fixing it.
         </AlertDescription>
       </Alert>
       <Box ref={scriptBoxRef} />
