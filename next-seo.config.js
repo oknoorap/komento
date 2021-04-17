@@ -1,5 +1,5 @@
 module.exports = {
   title: "Komento",
-  titleFormat: "%s",
+  titleTemplate: "%s",
   description: "Decentralized Comment Hosting Powered by IPFS",
 };
