@@ -1,0 +1,11 @@
+/* TEAM */
+	Maker: Ribhararnus Pracutian
+	Contact: oknoorap [at] gmail.com
+	Twitter: @oknoorap
+	From: Indonesia
+
+/* SITE */
+	Last update: 2021/04/15
+	Language: English
+	Doctype: HTML5
+	IDE: VSCode
