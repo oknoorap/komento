@@ -1,30 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <a href="https://komento.host">
+    <img src="public/images/logo.png" height="100">
+  </a>
+</p>
 
-## Getting Started
+<h1 align="center">Komento - Decentralized Comment Hosting Powered by IPFS</h1>
 
-First, run the development server:
+<p align="center">
+  <a aria-label="Ribhararnus Pracutian" href="https://github.com/oknoorap">
+    <img src="https://img.shields.io/badge/Ribhararnus%20Pracutian-000000.svg?style=for-the-badge&labelColor=000">
+  </a>
+  <a aria-label="License" href="https://github.com/oknoorap/komento/blob/master/LICENSE">
+    <img alt="License" src="https://img.shields.io/npm/l/next.svg?style=for-the-badge&labelColor=000000">
+  </a>
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<h2 align="center"><a href="https://komento.host">https://komento.host</a></h2>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗒 About Komento
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Komento is a comment hosting with decentralized database powered by IPFS (using OrbitDB).
 
-## Learn More
+### ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+- Anonymous identity (based on IP Address)
+- Markdown supports
+  - Codes
+  - Table
+  - Emojis
+  - Spoiler
+- Nested comments (up to 5 threads)
+- Comment's Vote (upvote and downvote)
+- Comment's Reaction (6 reactions)
+- Custom colors
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2021 (c) MIT License. Ribhararnus Pracutian

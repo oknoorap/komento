@@ -8,6 +8,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <link
+            type="text/plain"
+            rel="author"
+            href={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/humans.txt`}
+          />
           <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
           <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
           <link
