@@ -1,6 +1,15 @@
 import { useRef, useEffect } from "react";
 import NextLink from "next/link";
-import { Flex, Button, Link, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Button,
+  Link,
+  Box,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from "@chakra-ui/react";
 
 const HomepageView = () => {
   const scriptBoxRef = useRef<HTMLDivElement>();
@@ -17,13 +26,21 @@ const HomepageView = () => {
 
   return (
     <>
-      <Flex justifyContent="center" mb="8">
+      <Flex justifyContent="center" mb="4">
         <NextLink href="/setup" passHref>
           <Button as={Link} colorScheme="cerulean">
             Add to your website!
           </Button>
         </NextLink>
       </Flex>
+      <Alert status="warning" mb="8">
+        <AlertIcon />
+        <AlertTitle mr={2} />
+        <AlertDescription>
+          Komento is still in the the Beta phase (not production-ready yet), due
+          to database sync / replicate issues. We're fixing on it.
+        </AlertDescription>
+      </Alert>
       <Box ref={scriptBoxRef} />
     </>
   );
