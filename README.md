@@ -4,4 +4,4 @@
   </a>
 </p>
 
-<h1 align="center">TVlix - Online TV Streaming Watch Party</h1>
+<h1 align="center">Komento - Decentralized Comment Hosting Powered by IPFS</h1>
